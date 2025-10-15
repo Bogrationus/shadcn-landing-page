@@ -1,111 +1,80 @@
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Suspense, lazy } from "react";
+import { useI18n } from "@/i18n";
 
-interface TestimonialProps {
-  image: string;
+const Card = lazy(() =>
+  import("./ui/card").then((module) => ({ default: module.Card })),
+);
+const CardHeader = lazy(() =>
+  import("./ui/card").then((module) => ({ default: module.CardHeader })),
+);
+const CardTitle = lazy(() =>
+  import("./ui/card").then((module) => ({ default: module.CardTitle })),
+);
+const CardContent = lazy(() =>
+  import("./ui/card").then((module) => ({ default: module.CardContent })),
+);
+const CardDescription = lazy(() =>
+  import("./ui/card").then((module) => ({ default: module.CardDescription })),
+);
+const Avatar = lazy(() =>
+  import("./ui/avatar").then((module) => ({ default: module.Avatar })),
+);
+const AvatarFallback = lazy(() =>
+  import("./ui/avatar").then((module) => ({ default: module.AvatarFallback })),
+);
+
+type TestimonialItem = {
   name: string;
-  userName: string;
+  location: string;
   comment: string;
-}
+};
 
-const testimonials: TestimonialProps[] = [
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe",
-    comment: "This landing page is awesome!",
-  },
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe1",
-    comment:
-      "Lorem ipsum dolor sit amet,empor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.",
-  },
-
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe2",
-    comment:
-      "Lorem ipsum dolor sit amet,exercitation. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
-  },
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe3",
-    comment:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-  },
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe4",
-    comment:
-      "Lorem ipsum dolor sit amet, tempor incididunt  aliqua. Ut enim ad minim veniam, quis nostrud.",
-  },
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe5",
-    comment:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-];
+const getInitials = (name: string) => {
+  return name
+    .split(" ")
+    .map((part) => part.charAt(0).toUpperCase())
+    .join("")
+    .slice(0, 2);
+};
 
 export const Testimonials = () => {
+  const { t, translations } = useI18n();
+  const list = ((translations.testimonials as Record<string, unknown>)?.items ?? []) as TestimonialItem[];
+
   return (
-    <section
-      id="testimonials"
-      className="container py-24 sm:py-32"
-    >
-      <h2 className="text-3xl md:text-4xl font-bold">
-        Discover Why
-        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          {" "}
-          People Love{" "}
-        </span>
-        This Landing Page
-      </h2>
+    <section id="testimonials" className="container py-24 sm:py-32">
+      <div className="mx-auto max-w-4xl space-y-6 text-center">
+        <h2 className="text-3xl font-bold md:text-4xl">{t("testimonials.title")}</h2>
+        <p className="text-lg text-muted-foreground">{t("testimonials.description")}</p>
+      </div>
 
-      <p className="text-xl text-muted-foreground pt-4 pb-8">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non unde error
-        facere hic reiciendis illo
-      </p>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 sm:block columns-2  lg:columns-3 lg:gap-6 mx-auto space-y-4 lg:space-y-6">
-        {testimonials.map(
-          ({ image, name, userName, comment }: TestimonialProps) => (
-            <Card
-              key={userName}
-              className="max-w-md md:break-inside-avoid overflow-hidden"
-            >
-              <CardHeader className="flex flex-row items-center gap-4 pb-2">
-                <Avatar>
-                  <AvatarImage
-                    alt=""
-                    src={image}
-                  />
-                  <AvatarFallback>OM</AvatarFallback>
-                </Avatar>
-
-                <div className="flex flex-col">
-                  <CardTitle className="text-lg">{name}</CardTitle>
-                  <CardDescription>{userName}</CardDescription>
+      <div className="mt-10 grid gap-6 md:grid-cols-2">
+        {list.map((item) => (
+          <Suspense
+            key={`${item.name}-${item.location}`}
+            fallback={<div className="h-48 animate-pulse rounded-2xl bg-muted" />}
+          >
+            <Card className="h-full rounded-2xl border border-slate-200/70 bg-white/80 p-6 shadow-sm dark:border-slate-800/60 dark:bg-slate-950/50">
+              <CardHeader className="flex flex-row items-center gap-4 p-0">
+                <Suspense fallback={<div className="h-12 w-12 animate-pulse rounded-full bg-muted" />}
+                >
+                  <Avatar className="h-12 w-12">
+                    <AvatarFallback>{getInitials(item.name)}</AvatarFallback>
+                  </Avatar>
+                </Suspense>
+                <div className="text-left">
+                  <CardTitle className="text-lg font-semibold">{item.name}</CardTitle>
+                  <CardDescription>{item.location}</CardDescription>
                 </div>
               </CardHeader>
-
-              <CardContent>{comment}</CardContent>
+              <CardContent className="pt-4 text-left text-base text-muted-foreground">
+                “{item.comment}”
+              </CardContent>
             </Card>
-          )
-        )}
+          </Suspense>
+        ))}
       </div>
     </section>
   );
 };
+

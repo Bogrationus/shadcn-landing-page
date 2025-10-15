@@ -1,99 +1,93 @@
-import { Badge } from "./ui/badge";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import image from "../assets/growth.png";
-import image3 from "../assets/reflecting.png";
-import image4 from "../assets/looking-ahead.png";
+import { Suspense, lazy } from "react";
+import { useI18n } from "@/i18n";
 
-interface FeatureProps {
-  title: string;
-  description: string;
-  image: string;
-}
+const Card = lazy(() =>
+  import("./ui/card").then((module) => ({ default: module.Card })),
+);
+const CardHeader = lazy(() =>
+  import("./ui/card").then((module) => ({ default: module.CardHeader })),
+);
+const CardTitle = lazy(() =>
+  import("./ui/card").then((module) => ({ default: module.CardTitle })),
+);
+const CardDescription = lazy(() =>
+  import("./ui/card").then((module) => ({ default: module.CardDescription })),
+);
 
-const features: FeatureProps[] = [
-  {
-    title: "Responsive Design",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: image4,
-  },
-  {
-    title: "Intuitive user interface",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: image3,
-  },
-  {
-    title: "AI-Powered insights",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: image,
-  },
-];
+const PercentIcon = lazy(() =>
+  import("lucide-react").then((module) => ({ default: module.Percent })),
+);
+const WineIcon = lazy(() =>
+  import("lucide-react").then((module) => ({ default: module.Wine })),
+);
+const ClockIcon = lazy(() =>
+  import("lucide-react").then((module) => ({ default: module.Clock })),
+);
+const SandwichIcon = lazy(() =>
+  import("lucide-react").then((module) => ({ default: module.Sandwich })),
+);
 
-const featureList: string[] = [
-  "Dark/Light theme",
-  "Reviews",
-  "Features",
-  "Pricing",
-  "Contact form",
-  "Our team",
-  "Responsive design",
-  "Newsletter",
-  "Minimalist",
+type BenefitKey = "discount" | "mulledWine" | "lateCheckout" | "snacks";
+
+type IconComponent = typeof PercentIcon;
+
+const iconMap: Record<BenefitKey, IconComponent> = {
+  discount: PercentIcon,
+  mulledWine: WineIcon,
+  lateCheckout: ClockIcon,
+  snacks: SandwichIcon,
+};
+
+const benefitsOrder: BenefitKey[] = [
+  "discount",
+  "mulledWine",
+  "lateCheckout",
+  "snacks",
 ];
 
 export const Features = () => {
+  const { t } = useI18n();
+
   return (
-    <section
-      id="features"
-      className="container py-24 sm:py-32 space-y-8"
-    >
-      <h2 className="text-3xl lg:text-4xl font-bold md:text-center">
-        Many{" "}
-        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          Great Features
-        </span>
-      </h2>
-
-      <div className="flex flex-wrap md:justify-center gap-4">
-        {featureList.map((feature: string) => (
-          <div key={feature}>
-            <Badge
-              variant="secondary"
-              className="text-sm"
-            >
-              {feature}
-            </Badge>
-          </div>
-        ))}
-      </div>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {features.map(({ title, description, image }: FeatureProps) => (
-          <Card key={title}>
-            <CardHeader>
-              <CardTitle>{title}</CardTitle>
-            </CardHeader>
-
-            <CardContent>{description}</CardContent>
-
-            <CardFooter>
-              <img
-                src={image}
-                alt="About feature"
-                className="w-[200px] lg:w-[300px] mx-auto"
-              />
-            </CardFooter>
-          </Card>
-        ))}
+    <section id="features" className="container py-24 sm:py-32">
+      <div className="mx-auto max-w-5xl space-y-8 text-center">
+        <div className="space-y-4">
+          <h2 className="text-3xl font-bold md:text-4xl">{t("benefits.title")}</h2>
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+            {t("benefits.description")}
+          </p>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2">
+          {benefitsOrder.map((key) => {
+            const Icon = iconMap[key];
+            return (
+              <Suspense
+                key={key}
+                fallback={<div className="h-40 animate-pulse rounded-2xl bg-muted" />}
+              >
+                <Card className="h-full rounded-2xl border border-slate-200/70 bg-muted/40 p-6 text-left shadow-sm transition hover:shadow-lg dark:border-slate-800/60">
+                  <CardHeader className="flex flex-col space-y-4 p-0">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                      <Suspense fallback={<span className="text-lg">★</span>}>
+                        <Icon className="h-6 w-6 text-primary" aria-hidden />
+                      </Suspense>
+                    </div>
+                    <div className="space-y-2">
+                      <CardTitle className="text-xl font-semibold">
+                        {t(`benefits.items.${key}.title`)}
+                      </CardTitle>
+                      <CardDescription className="text-base">
+                        {t(`benefits.items.${key}.description`)}
+                      </CardDescription>
+                    </div>
+                  </CardHeader>
+                </Card>
+              </Suspense>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
 };
+
