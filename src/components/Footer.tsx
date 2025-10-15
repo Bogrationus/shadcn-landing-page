@@ -1,4 +1,3 @@
-import React from "react";
 import { AVAILABLE_LANGUAGES, useI18n } from "@/i18n";
 
 const footerLinks = [

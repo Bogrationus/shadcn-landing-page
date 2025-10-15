@@ -1,5 +1,4 @@
 import { Suspense, lazy } from "react";
-import type { ComponentType, LazyExoticComponent, SVGProps } from "react";
 import { useI18n } from "@/i18n";
 
 const Card = lazy(() =>
@@ -30,7 +29,7 @@ const SandwichIcon = lazy(() =>
 
 type BenefitKey = "discount" | "mulledWine" | "lateCheckout" | "snacks";
 
-type IconComponent = LazyExoticComponent<ComponentType<SVGProps<SVGSVGElement>>>;
+type IconComponent = typeof PercentIcon;
 
 const iconMap: Record<BenefitKey, IconComponent> = {
   discount: PercentIcon,

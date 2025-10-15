@@ -15,8 +15,8 @@ const XIcon = lazy(() =>
   import("lucide-react").then((module) => ({ default: module.X })),
 );
 
-const FireplaceIcon = lazy(() =>
-  import("lucide-react").then((module) => ({ default: module.Fireplace })),
+const FlameIcon = lazy(() =>
+  import("lucide-react").then((module) => ({ default: module.Flame })),
 );
 
 interface NavItem {
@@ -44,7 +44,7 @@ export const Navbar = () => {
       <div className="container mx-auto flex h-16 items-center justify-between gap-4 px-4">
         <a className="flex items-center gap-2 font-semibold" href="#nabidka">
           <Suspense fallback={<span className="sr-only">🔥</span>}>
-            <FireplaceIcon className="h-6 w-6" aria-hidden />
+            <FlameIcon className="h-6 w-6" aria-hidden />
           </Suspense>
           <span className="text-lg md:text-xl">{t("nav.brand")}</span>
         </a>

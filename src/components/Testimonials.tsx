@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import { Suspense, lazy } from "react";
 import { useI18n } from "@/i18n";
 
 const Card = lazy(() =>
