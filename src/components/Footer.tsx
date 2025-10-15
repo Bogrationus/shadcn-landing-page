@@ -1,168 +1,58 @@
-import { LogoIcon } from "./Icons";
-
 export const Footer = () => {
   return (
-    <footer id="footer">
-      <hr className="w-11/12 mx-auto" />
-
-      <section className="container py-20 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-x-12 gap-y-8">
-        <div className="col-span-full xl:col-span-2">
+    <footer className="border-t border-slate-200 bg-slate-50">
+      <section className="container grid gap-10 py-16 md:grid-cols-3">
+        <div className="space-y-4">
           <a
             rel="noreferrer noopener"
             href="/"
-            className="font-bold text-xl flex"
+            className="text-2xl font-semibold text-slate-800"
           >
-            <LogoIcon />
-            ShadcnUI/React
+            Malířské služby Praha
           </a>
+          <p className="text-sm text-slate-600">
+            Профессиональная покраска квартир, домов и офисов в Праге. Работаем
+            по договору, соблюдаем сроки и оставляем помещения чистыми.
+          </p>
         </div>
-
-        <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-lg">Follow US</h3>
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Github
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Twitter
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Dribbble
-            </a>
-          </div>
+        <div className="space-y-3 text-sm text-slate-600">
+          <h3 className="text-lg font-semibold text-slate-800">Контакты</h3>
+          <p>+420 777 123 456</p>
+          <p>info@malirpraha.cz</p>
+          <p>Praha, Česká republika</p>
         </div>
-
-        <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-lg">Platforms</h3>
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Web
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Mobile
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Desktop
-            </a>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-lg">About</h3>
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Features
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Pricing
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              FAQ
-            </a>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-lg">Community</h3>
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Youtube
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Discord
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Twitch
-            </a>
-          </div>
+        <div className="space-y-3 text-sm text-slate-600">
+          <h3 className="text-lg font-semibold text-slate-800">Навигация</h3>
+          <ul className="space-y-2">
+            <li>
+              <a className="hover:text-[#2563EB]" href="#services">
+                Услуги
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-[#2563EB]" href="#gallery">
+                Галерея
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-[#2563EB]" href="#testimonials">
+                Отзывы
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-[#2563EB]" href="#contact">
+                Контакты
+              </a>
+            </li>
+          </ul>
         </div>
       </section>
-
-      <section className="container pb-14 text-center">
-        <h3>
-          &copy; 2024 Landing page made by{" "}
-          <a
-            rel="noreferrer noopener"
-            target="_blank"
-            href="https://www.linkedin.com/in/leopoldo-miranda/"
-            className="text-primary transition-all border-primary hover:border-b-2"
-          >
-            Leo Miranda
-          </a>
-        </h3>
-      </section>
+      <div className="border-t border-slate-200 bg-white">
+        <div className="container flex flex-col items-center justify-between gap-4 py-6 text-sm text-slate-500 md:flex-row">
+          <p>&copy; {new Date().getFullYear()} Malířské služby Praha. Все права защищены.</p>
+          <p>Made with care in Prague.</p>
+        </div>
+      </div>
     </footer>
   );
 };

@@ -1,110 +1,57 @@
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
-interface TestimonialProps {
-  image: string;
-  name: string;
-  userName: string;
-  comment: string;
-}
-
-const testimonials: TestimonialProps[] = [
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe",
-    comment: "This landing page is awesome!",
-  },
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe1",
-    comment:
-      "Lorem ipsum dolor sit amet,empor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.",
-  },
-
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe2",
-    comment:
-      "Lorem ipsum dolor sit amet,exercitation. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
-  },
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe3",
-    comment:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-  },
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe4",
-    comment:
-      "Lorem ipsum dolor sit amet, tempor incididunt  aliqua. Ut enim ad minim veniam, quis nostrud.",
-  },
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe5",
-    comment:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
-];
-
 export const Testimonials = () => {
+  const testimonials = [
+    {
+      name: "Pavel Novák",
+      role: "Praha 3",
+      comment:
+        "Malíři přijeli přesně na čas, vše zakryli a po práci nechali byt čistý. Barva sedí přesně podle vzorníku. Doporučuji!",
+    },
+    {
+      name: "Марина и Алексей",
+      role: "Прага 5",
+      comment:
+        "Ребята помогли быстро освежить квартиру перед сдачей. Подсказали по цветам, сделали шпаклёвку и покраску за два дня.",
+    },
+    {
+      name: "Sophie Clark",
+      role: "Prague Office",
+      comment:
+        "Great communication in English and very professional finish. Our office now looks bright and welcoming again.",
+    },
+  ];
+
   return (
     <section
       id="testimonials"
-      className="container py-24 sm:py-32"
+      className="bg-slate-50"
     >
-      <h2 className="text-3xl md:text-4xl font-bold">
-        Discover Why
-        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          {" "}
-          People Love{" "}
-        </span>
-        This Landing Page
-      </h2>
+      <div className="container py-20 sm:py-28">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-semibold text-slate-800 md:text-4xl">
+            Клиенты о нас
+          </h2>
+          <p className="mt-4 text-lg text-slate-600">
+            Жители Праги доверяют нам окраску квартир, домов и офисов — на русском,
+            чешском и английском языках.
+          </p>
+        </div>
 
-      <p className="text-xl text-muted-foreground pt-4 pb-8">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non unde error
-        facere hic reiciendis illo
-      </p>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 sm:block columns-2  lg:columns-3 lg:gap-6 mx-auto space-y-4 lg:space-y-6">
-        {testimonials.map(
-          ({ image, name, userName, comment }: TestimonialProps) => (
-            <Card
-              key={userName}
-              className="max-w-md md:break-inside-avoid overflow-hidden"
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {testimonials.map(({ name, role, comment }) => (
+            <figure
+              key={name}
+              className="flex h-full flex-col justify-between rounded-3xl border border-blue-100 bg-white p-8 text-left shadow-sm"
             >
-              <CardHeader className="flex flex-row items-center gap-4 pb-2">
-                <Avatar>
-                  <AvatarImage
-                    alt=""
-                    src={image}
-                  />
-                  <AvatarFallback>OM</AvatarFallback>
-                </Avatar>
-
-                <div className="flex flex-col">
-                  <CardTitle className="text-lg">{name}</CardTitle>
-                  <CardDescription>{userName}</CardDescription>
-                </div>
-              </CardHeader>
-
-              <CardContent>{comment}</CardContent>
-            </Card>
-          )
-        )}
+              <blockquote className="text-base text-slate-600">
+                “{comment}”
+              </blockquote>
+              <figcaption className="mt-6">
+                <p className="text-lg font-semibold text-slate-800">{name}</p>
+                <p className="text-sm text-slate-500">{role}</p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
       </div>
     </section>
   );
