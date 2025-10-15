@@ -1,5 +1,4 @@
-export const CTA_URL =
-  "https://penzion-kersko.com/rezervace/?utm_source=landing&utm_medium=promo&utm_campaign=weeknights_fireplace";
+export const CTA_URL = "https://penzion-kersko.com/rezervace/";
 
 export type AnalyticsEvent = "view_promotion" | "begin_checkout" | "purchase";
 

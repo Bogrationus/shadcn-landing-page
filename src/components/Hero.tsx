@@ -1,102 +1,75 @@
-import { Suspense, lazy, useEffect, useState } from "react";
-import { useI18n } from "@/i18n";
-import {
-  CTA_URL,
-  trackBeginCheckout,
-  trackViewPromotion,
-} from "@/lib/analytics";
-import { StayDatePicker } from "./StayDatePicker";
+import { useEffect } from "react";
+import { CTA_URL, trackBeginCheckout, trackViewPromotion } from "@/lib/analytics";
+import { Button } from "./ui/button";
 
-const Button = lazy(() =>
-  import("./ui/button").then((module) => ({ default: module.Button })),
-);
+const HERO_IMAGE = "https://penzion-kersko.com/wp-content/uploads/2020/05/penzion-kersko-uvod.jpg";
 
 export const Hero = () => {
-  const { t } = useI18n();
-  const [heroSrc, setHeroSrc] = useState<string | null>(null);
-
   useEffect(() => {
     trackViewPromotion({ source: "hero" });
   }, []);
 
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
-    }
-
-    const canvas = document.createElement("canvas");
-    canvas.width = 1920;
-    canvas.height = 1280;
-    const context = canvas.getContext("2d");
-    if (!context) {
-      return;
-    }
-
-    const gradient = context.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, "#2b1a16");
-    gradient.addColorStop(0.4, "#3d2016");
-    gradient.addColorStop(1, "#621f0f");
-    context.fillStyle = gradient;
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    const glowGradient = context.createRadialGradient(
-      canvas.width / 2,
-      canvas.height * 0.8,
-      50,
-      canvas.width / 2,
-      canvas.height,
-      600,
-    );
-    glowGradient.addColorStop(0, "rgba(255, 180, 120, 0.85)");
-    glowGradient.addColorStop(0.6, "rgba(200, 90, 30, 0.35)");
-    glowGradient.addColorStop(1, "rgba(10, 5, 3, 0.1)");
-    context.fillStyle = glowGradient;
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    const dataUrl = canvas.toDataURL("image/webp", 0.92);
-    setHeroSrc(dataUrl);
-  }, []);
-
-  const handleCTAClick = () => {
+  const handleClick = () => {
     trackBeginCheckout({ source: "hero" });
   };
 
   return (
     <section
-      id="nabidka"
-      className="hero-critical container grid gap-10 place-items-center py-20 md:py-32 lg:grid-cols-2"
+      id="hero"
+      className="relative flex flex-1 items-center bg-emerald-900"
+      aria-labelledby="hero-heading"
     >
-      <div className="space-y-6 text-center lg:text-left">
-        <h1 className="text-5xl font-bold md:text-6xl">
-          {t("hero.title")}
-          {" "}
-          <span className="bg-gradient-to-r from-pink-300 to-fuchsia-600 bg-clip-text text-transparent">
-            {t("hero.highlight")}
-          </span>
-        </h1>
-        <p className="mx-auto max-w-xl text-xl text-muted-foreground lg:mx-0">
-          {t("hero.description")}
-        </p>
-        <Suspense fallback={<button className="h-11 rounded-md bg-primary px-6 text-lg font-semibold text-primary-foreground" disabled>{t("nav.cta")}</button>}>
-          <Button asChild size="lg" onClick={handleCTAClick}>
-            <a href={CTA_URL}>{t("nav.cta")}</a>
-          </Button>
-        </Suspense>
-        <StayDatePicker />
-      </div>
-      <div className="relative h-80 w-full overflow-hidden rounded-2xl shadow-lg lg:h-full">
+      <div className="absolute inset-0">
         <img
-          src={
-            heroSrc ??
-            "data:image/webp;base64,UklGRlIAAABXRUJQVlA4WAoAAAAQAAAADwAADwAAQUxQSAwAAAARL0AmbZurmr57yyIiqE8oiG0cHh9PA=="
-          }
-          width={1920}
-          height={1280}
-          alt="Praskající krb v lobby Penzionu Kersko"
+          src={HERO_IMAGE}
+          alt="Penzion Kersko v zeleni se zahradou a posezením"
           className="h-full w-full object-cover"
           loading="eager"
-          decoding="async"
         />
+        <div className="absolute inset-0 bg-emerald-950/70" aria-hidden />
+      </div>
+
+      <div className="relative z-10 w-full">
+        <div className="container mx-auto flex flex-col gap-10 px-4 py-24 text-white lg:flex-row lg:items-center lg:justify-between">
+          <div className="max-w-2xl space-y-6">
+            <span className="inline-flex w-max rounded-full bg-white/20 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-100">
+              Všední dny u krbu −20 %
+            </span>
+            <h1 id="hero-heading" className="text-4xl font-bold leading-tight sm:text-5xl md:text-6xl">
+              Penzion Kersko
+              <span className="mt-2 block text-emerald-100">Překrásný odpočinek v přírodě</span>
+            </h1>
+            <p className="text-lg text-emerald-50 sm:text-xl">
+              Dopřejte si klidné večery u krbu, probouzení v zeleni a rodinnou atmosféru jen kousek od Prahy. Rezervujte si všední dny se zvýhodněním 20&nbsp;%.
+            </p>
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
+              <Button
+                asChild
+                size="lg"
+                className="h-12 px-8 text-base font-semibold text-emerald-950"
+                onClick={handleClick}
+              >
+                <a href={CTA_URL}>Rezervace</a>
+              </Button>
+              <div className="text-sm leading-relaxed text-emerald-100/90">
+                <p>
+                  <a className="transition hover:text-white" href="mailto:info@penzion-kersko.cz">
+                    info@penzion-kersko.cz
+                  </a>
+                </p>
+                <p className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
+                  <a className="transition hover:text-white" href="tel:+420777837239">
+                    +420 777 837 239
+                  </a>
+                  <span className="hidden sm:inline">•</span>
+                  <a className="transition hover:text-white" href="tel:+420608932667">
+                    +420 608 932 667
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
