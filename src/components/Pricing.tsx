@@ -1,147 +1,107 @@
-import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Check } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 
-enum PopularPlanType {
-  NO = 0,
-  YES = 1,
-}
+const fadeIn = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, ease: [0.215, 0.61, 0.355, 1] },
+  viewport: { once: true, amount: 0.3 },
+};
 
-interface PricingProps {
-  title: string;
-  popular: PopularPlanType;
-  price: number;
-  description: string;
-  buttonText: string;
-  benefitList: string[];
-}
-
-const pricingList: PricingProps[] = [
+const plans = [
   {
-    title: "Free",
-    popular: 0,
-    price: 0,
-    description:
-      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
-    buttonText: "Get Started",
-    benefitList: [
-      "1 Team member",
-      "2 GB Storage",
-      "Upto 4 pages",
-      "Community support",
-      "lorem ipsum dolor",
+    name: "Разовая консультация",
+    price: "7 500 ₽",
+    description: "Идеально для знакомства и точечной работы",
+    perks: [
+      "60 минут онлайн",
+      "Запись встречи",
+      "Подбор практик на 2 недели",
     ],
+    highlight: false,
   },
   {
-    title: "Premium",
-    popular: 1,
-    price: 5,
-    description:
-      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
-    buttonText: "Start Free Trial",
-    benefitList: [
-      "4 Team member",
-      "4 GB Storage",
-      "Upto 6 pages",
-      "Priority support",
-      "lorem ipsum dolor",
+    name: "Пакет из 3 сессий",
+    price: "20 000 ₽",
+    description: "Для глубокой трансформации и сопровождения",
+    perks: [
+      "3 встречи по 75 минут",
+      "Аудио-сводка после каждой",
+      "Поддержка в Telegram между сессиями",
     ],
+    highlight: true,
   },
   {
-    title: "Enterprise",
-    popular: 0,
-    price: 40,
-    description:
-      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
-    buttonText: "Contact US",
-    benefitList: [
-      "10 Team member",
-      "8 GB Storage",
-      "Upto 10 pages",
-      "Priority support",
-      "lorem ipsum dolor",
+    name: "Годовой компас",
+    price: "58 000 ₽",
+    description: "Полный цикл поддержки на 12 месяцев",
+    perks: [
+      "Годовой прогноз + 6 созвонов",
+      "Ежемесячный чек-ин",
+      "Экстренный звонок 1 раз в квартал",
     ],
+    highlight: false,
   },
 ];
 
-export const Pricing = () => {
+export function Pricing() {
   return (
-    <section
+    <motion.section
       id="pricing"
-      className="container py-24 sm:py-32"
+      className="container scroll-mt-24 space-y-12 py-24"
+      {...fadeIn}
     >
-      <h2 className="text-3xl md:text-4xl font-bold text-center">
-        Get
-        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          {" "}
-          Unlimited{" "}
-        </span>
-        Access
-      </h2>
-      <h3 className="text-xl text-center text-muted-foreground pt-4 pb-8">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias
-        reiciendis.
-      </h3>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {pricingList.map((pricing: PricingProps) => (
+      <div className="mx-auto max-w-2xl text-center md:max-w-3xl">
+        <h2 className="text-balance text-3xl font-semibold sm:text-4xl">
+          Стоимость сопровождения
+        </h2>
+        <p className="mt-4 text-base text-muted-foreground md:text-lg">
+          Выберите формат и зафиксируйте дату, я свяжусь для уточнения деталей.
+        </p>
+      </div>
+      <div className="grid gap-6 md:grid-cols-3">
+        {plans.map((plan) => (
           <Card
-            key={pricing.title}
-            className={
-              pricing.popular === PopularPlanType.YES
-                ? "drop-shadow-xl shadow-black/10 dark:shadow-white/10"
-                : ""
-            }
+            key={plan.name}
+            className={`flex h-full flex-col border-border/60 bg-card/80 shadow-lg transition-transform ${
+              plan.highlight ? "md:-mt-4 md:scale-[1.02] md:border-primary/60 md:shadow-2xl" : ""
+            }`}
           >
             <CardHeader>
-              <CardTitle className="flex item-center justify-between">
-                {pricing.title}
-                {pricing.popular === PopularPlanType.YES ? (
-                  <Badge
-                    variant="secondary"
-                    className="text-sm text-primary"
-                  >
-                    Most popular
-                  </Badge>
-                ) : null}
-              </CardTitle>
-              <div>
-                <span className="text-3xl font-bold">${pricing.price}</span>
-                <span className="text-muted-foreground"> /month</span>
-              </div>
-
-              <CardDescription>{pricing.description}</CardDescription>
+              <p className="text-sm font-medium text-primary">
+                {plan.highlight ? "Популярный выбор" : ""}
+              </p>
+              <CardTitle className="text-xl font-semibold">{plan.name}</CardTitle>
+              <p className="text-3xl font-semibold">{plan.price}</p>
+              <p className="text-sm text-muted-foreground">{plan.description}</p>
             </CardHeader>
-
-            <CardContent>
-              <Button className="w-full">{pricing.buttonText}</Button>
-            </CardContent>
-
-            <hr className="w-4/5 m-auto mb-4" />
-
-            <CardFooter className="flex">
-              <div className="space-y-4">
-                {pricing.benefitList.map((benefit: string) => (
-                  <span
-                    key={benefit}
-                    className="flex"
-                  >
-                    <Check className="text-green-500" />{" "}
-                    <h3 className="ml-2">{benefit}</h3>
-                  </span>
+            <CardContent className="flex-1">
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                {plan.perks.map((perk) => (
+                  <li key={perk} className="flex items-start gap-3">
+                    <CheckCircle
+                      className="mt-0.5 h-4 w-4 flex-none text-primary"
+                      aria-hidden="true"
+                    />
+                    <span className="leading-relaxed">{perk}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
+            </CardContent>
+            <CardFooter>
+              <Button
+                variant={plan.highlight ? "default" : "outline"}
+                className="w-full"
+                asChild
+              >
+                <a href="#contact">Записаться</a>
+              </Button>
             </CardFooter>
           </Card>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
-};
+}

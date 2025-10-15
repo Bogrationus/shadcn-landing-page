@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import {
   Accordion,
   AccordionContent,
@@ -5,87 +6,65 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-interface FAQProps {
-  question: string;
-  answer: string;
-  value: string;
-}
+const fadeIn = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, ease: [0.215, 0.61, 0.355, 1] },
+  viewport: { once: true, amount: 0.3 },
+};
 
-const FAQList: FAQProps[] = [
+const items = [
   {
-    question: "Is this template free?",
-    answer: "Yes. It is a free ChadcnUI template.",
     value: "item-1",
+    question: "Как подготовиться к консультации?",
+    answer:
+      "Заполните форму с основными данными и пришлите дату, время и место рождения. Подготовьте 2-3 запроса, которые хотите обсудить.",
   },
   {
-    question: "Lorem ipsum dolor sit amet consectetur adipisicing elit?",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint labore quidem quam? Consectetur sapiente iste rerum reiciendis animi nihil nostrum sit quo, modi quod.",
     value: "item-2",
+    question: "Что если я никогда не работала с астрологом?",
+    answer:
+      "Я объясняю всё простым языком. Упор делаем на практические шаги, которые вы сможете внедрить уже в ближайшие дни.",
   },
   {
-    question:
-      "Lorem ipsum dolor sit amet  Consectetur natus dolores minus quibusdam?",
-    answer:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore qui nostrum reiciendis veritatis necessitatibus maxime quis ipsa vitae cumque quo?",
     value: "item-3",
-  },
-  {
-    question: "Lorem ipsum dolor sit amet, consectetur adipisicing elit?",
-    answer: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
-    value: "item-4",
-  },
-  {
-    question:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur natus?",
+    question: "Можно ли перенести встречу?",
     answer:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint labore quidem quam? Consectetur sapiente iste rerum reiciendis animi nihil nostrum sit quo, modi quod.",
-    value: "item-5",
+      "Да, за 24 часа до сессии её можно перенести без потерь. В экстренных ситуациях мы всегда ищем новое удобное время.",
   },
 ];
 
-export const FAQ = () => {
+export function FAQ() {
   return (
-    <section
+    <motion.section
       id="faq"
-      className="container py-24 sm:py-32"
+      className="container scroll-mt-24 space-y-12 py-24"
+      {...fadeIn}
     >
-      <h2 className="text-3xl md:text-4xl font-bold mb-4">
-        Frequently Asked{" "}
-        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          Questions
-        </span>
-      </h2>
-
-      <Accordion
-        type="single"
-        collapsible
-        className="w-full AccordionRoot"
-      >
-        {FAQList.map(({ question, answer, value }: FAQProps) => (
+      <div className="mx-auto max-w-2xl text-center md:max-w-3xl">
+        <h2 className="text-balance text-3xl font-semibold sm:text-4xl">
+          FAQ
+        </h2>
+        <p className="mt-4 text-base text-muted-foreground md:text-lg">
+          Если не нашли ответ — напишите, и я с радостью подсвечу детали.
+        </p>
+      </div>
+      <Accordion type="single" collapsible className="mx-auto max-w-3xl space-y-4">
+        {items.map((item) => (
           <AccordionItem
-            key={value}
-            value={value}
+            key={item.value}
+            value={item.value}
+            className="overflow-hidden rounded-3xl border border-border/60 bg-card/70 px-4"
           >
-            <AccordionTrigger className="text-left">
-              {question}
+            <AccordionTrigger className="text-left text-base font-semibold">
+              {item.question}
             </AccordionTrigger>
-
-            <AccordionContent>{answer}</AccordionContent>
+            <AccordionContent className="pb-4 text-sm text-muted-foreground">
+              {item.answer}
+            </AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>
-
-      <h3 className="font-medium mt-4">
-        Still have questions?{" "}
-        <a
-          rel="noreferrer noopener"
-          href="#"
-          className="text-primary transition-all border-primary hover:border-b-2"
-        >
-          Contact us
-        </a>
-      </h3>
-    </section>
+    </motion.section>
   );
-};
+}

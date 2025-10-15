@@ -1,59 +1,39 @@
-# Shadcn/UI Landing Page Template
+# Одностраничный сайт консультантки Татьяны
 
-## <a href="https://ui.shadcn.com/" target="_blank">ShadcnUI</a> + <a href="https://react.dev/" target="_blank">React</a> + <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a> + <a href="https://tailwindcss.com/" target="_blank">Tailwind</a>.
+Одностраничный лендинг на основе шаблона Shadcn UI, адаптированный для консультантки Татьяны. Стек: React 18 + Vite + TypeScript, Tailwind CSS и компоненты shadcn/ui, иконки lucide-react, анимации framer-motion.
 
-![shadch-landing-page](https://github.com/leoMirandaa/shadcn-landing-page/assets/61714687/3ba7b51f-9589-4541-800a-5ab7cecad1b5)
+## Возможности
+- 💡 Гибкое позиционирование: разделы о подходе, услугах, ценах и FAQ.
+- 🎨 Светлая и тёмная темы с переключателем и системными настройками.
+- 📱 Полная адаптивность (от 320 px) и плавные анимации появления на скролле.
+- 💬 Форма обратной связи с интеграцией Formspree и кнопкой Telegram.
 
-Build your React landing page effortlessly with the required sections to your project. <a href="https://shadcn-landing-page.vercel.app/" target="_blank">Live Demo</a>
+## Структура страниц
+- `#hero` — главный блок с фото, слоганом и CTA.
+- `#about` — информация о Татьяне, факты и достижения.
+- `#approach` — три направления работы.
+- `#services` — форматы консультаций.
+- `#testimonials` — отзывы (masonry + автослайд на мобильных).
+- `#pricing` — тарифы и преимущества.
+- `#faq` — часто задаваемые вопросы.
+- `#contact` — форма связи и Telegram.
+- Footer — копирайт с текущим годом.
 
-## Sections
+## Быстрый старт
+1. Установите зависимости:
+   ```bash
+   pnpm install
+   ```
+2. Запустите локальный сервер разработки:
+   ```bash
+   pnpm dev
+   ```
+3. Откройте [http://localhost:5173](http://localhost:5173) в браузере.
 
-- [x] Navbar
-- [x] Sidebar(mobile)
-- [x] Hero
-- [x] Sponsors
-- [x] About
-- [x] Stats
-- [x] How It Works
-- [x] Features
-- [x] Services
-- [x] Call-to-Action (CTA)
-- [x] Testimonials
-- [x] Team
-- [x] Pricing
-- [x] Newsletter
-- [x] Frequently Asked Questions(FAQ)
-- [x] Footer
+## Скрипты
+- `pnpm dev` — запуск Vite в режиме разработки.
+- `pnpm build` — сборка проекта.
+- `pnpm preview` — предпросмотр собранной версии.
 
-## Features
-
-- [x] Fully Responsive Design
-- [x] User Friendly Navigation
-- [x] Dark Mode
-- [x] Meta tags
-
-## How to install
-
-1. Clone this repository:
-
-```bash
-git clone https://github.com/leoMirandaa/shadcn-landing-page.git
-```
-
-2. Go into project
-
-```bash
-cd shadcn-landing-page
-```
-
-3. Install dependencies
-
-```bash
-npm install
-```
-
-4. Run project
-
-```bash
-npm run dev
-```
+## Лицензия
+Проект распространяется по лицензии [MIT](./LICENSE).

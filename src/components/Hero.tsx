@@ -1,57 +1,64 @@
-import { Button } from "./ui/button";
-import { buttonVariants } from "./ui/button";
-import { HeroCards } from "./HeroCards";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import portrait from "@/assets/reflecting.png";
 
-export const Hero = () => {
+const fadeIn = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, ease: [0.215, 0.61, 0.355, 1] },
+  viewport: { once: true, amount: 0.6 },
+};
+
+export function Hero() {
   return (
-    <section className="container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10">
-      <div className="text-center lg:text-start space-y-6">
-        <main className="text-5xl md:text-6xl font-bold">
-          <h1 className="inline">
-            <span className="inline bg-gradient-to-r from-[#F596D3]  to-[#D247BF] text-transparent bg-clip-text">
-              Shadcn
-            </span>{" "}
-            landing page
-          </h1>{" "}
-          for{" "}
-          <h2 className="inline">
-            <span className="inline bg-gradient-to-r from-[#61DAFB] via-[#1fc0f1] to-[#03a3d7] text-transparent bg-clip-text">
-              React
-            </span>{" "}
-            developers
-          </h2>
-        </main>
-
-        <p className="text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0">
-          Build your React landing page effortlessly with the required sections
-          to your project.
+    <motion.section
+      id="hero"
+      className="container scroll-mt-24 flex flex-col items-center gap-12 pb-24 pt-36 text-center md:flex-row md:items-end md:justify-between md:gap-16 md:text-left"
+      {...fadeIn}
+    >
+      <div className="flex-1 space-y-6">
+        <p className="text-sm font-medium uppercase tracking-[0.3em] text-primary">
+          Гармония через знание себя
         </p>
-
-        <div className="space-y-4 md:space-y-0 md:space-x-4">
-          <Button className="w-full md:w-1/3">Get Started</Button>
-
-          <a
-            rel="noreferrer noopener"
-            href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-            target="_blank"
-            className={`w-full md:w-1/3 ${buttonVariants({
-              variant: "outline",
-            })}`}
-          >
-            Github Repository
-            <GitHubLogoIcon className="ml-2 w-5 h-5" />
-          </a>
+        <h1 className="text-balance text-4xl font-semibold leading-tight text-foreground sm:text-5xl">
+          Консультации Татьяны по самопознанию, энергии и астрологии
+        </h1>
+        <p className="text-base text-muted-foreground md:text-lg">
+          Я помогаю женщинам настраивать внутренний компас, слышать голос
+          интуиции и принимать решения, которые поддерживают тело, разум и
+          сердце. Вместе мы найдём маршруты к устойчивости и радости.
+        </p>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <Button size="lg" className="font-semibold" asChild>
+            <a href="#contact">Записаться</a>
+          </Button>
+          <Button size="lg" variant="outline" className="font-semibold" asChild>
+            <a href="#about">Подробнее</a>
+          </Button>
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-muted-foreground md:justify-start">
+          <div className="rounded-full border border-border/60 px-4 py-2">
+            Опыт более 8 лет
+          </div>
+          <div className="rounded-full border border-border/60 px-4 py-2">
+            500+ личных консультаций
+          </div>
         </div>
       </div>
-
-      {/* Hero cards sections */}
-      <div className="z-10">
-        <HeroCards />
-      </div>
-
-      {/* Shadow effect */}
-      <div className="shadow"></div>
-    </section>
+      <motion.div
+        className="relative mx-auto max-w-[320px] flex-1 md:max-w-[360px]"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ type: "spring", damping: 18, stiffness: 120, delay: 0.1 }}
+      >
+        <div className="relative overflow-hidden rounded-[2.5rem] border border-border/60 bg-gradient-to-br from-primary/15 via-transparent to-primary/30 p-4 shadow-lg">
+          <img
+            src={portrait}
+            alt="Татьяна во время консультации"
+            className="h-full w-full rounded-[2rem] object-cover"
+          />
+        </div>
+      </motion.div>
+    </motion.section>
   );
-};
+}

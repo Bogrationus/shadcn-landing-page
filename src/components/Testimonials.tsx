@@ -1,111 +1,125 @@
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Star } from "lucide-react";
 
-interface TestimonialProps {
-  image: string;
-  name: string;
-  userName: string;
-  comment: string;
-}
+const fadeIn = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, ease: [0.215, 0.61, 0.355, 1] },
+  viewport: { once: true, amount: 0.3 },
+};
 
-const testimonials: TestimonialProps[] = [
+const testimonials = [
   {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe",
-    comment: "This landing page is awesome!",
+    name: "Алина",
+    role: "предпринимательница",
+    quote:
+      "Татьяна помогла увидеть повторяющиеся сценарии в бизнесе и предложила простые практики для стабилизации дохода. Встретила поддержку и мягкую дисциплину.",
   },
   {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe1",
-    comment:
-      "Lorem ipsum dolor sit amet,empor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.",
-  },
-
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe2",
-    comment:
-      "Lorem ipsum dolor sit amet,exercitation. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
+    name: "Мария",
+    role: "психолог",
+    quote:
+      "После каждой сессии у меня ощущение лёгкости. Прогноз на год стал картой, на которую я опираюсь при планировании сессий и отдыха.",
   },
   {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe3",
-    comment:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-  },
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe4",
-    comment:
-      "Lorem ipsum dolor sit amet, tempor incididunt  aliqua. Ut enim ad minim veniam, quis nostrud.",
-  },
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe React",
-    userName: "@john_Doe5",
-    comment:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    name: "Елена",
+    role: "HR-директор",
+    quote:
+      "Годовой пакет сопровождения помог мне пройти через карьерный переход без выгорания. Важнее всего — осознанные решения и забота о себе.",
   },
 ];
 
-export const Testimonials = () => {
+export function Testimonials() {
+  const [active, setActive] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const interval = window.setInterval(() => {
+      setActive((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+
+    return () => window.clearInterval(interval);
+  }, [isMobile]);
+
   return (
-    <section
+    <motion.section
       id="testimonials"
-      className="container py-24 sm:py-32"
+      className="container scroll-mt-24 space-y-12 py-24"
+      {...fadeIn}
     >
-      <h2 className="text-3xl md:text-4xl font-bold">
-        Discover Why
-        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          {" "}
-          People Love{" "}
-        </span>
-        This Landing Page
-      </h2>
-
-      <p className="text-xl text-muted-foreground pt-4 pb-8">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non unde error
-        facere hic reiciendis illo
-      </p>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 sm:block columns-2  lg:columns-3 lg:gap-6 mx-auto space-y-4 lg:space-y-6">
-        {testimonials.map(
-          ({ image, name, userName, comment }: TestimonialProps) => (
-            <Card
-              key={userName}
-              className="max-w-md md:break-inside-avoid overflow-hidden"
-            >
-              <CardHeader className="flex flex-row items-center gap-4 pb-2">
-                <Avatar>
-                  <AvatarImage
-                    alt=""
-                    src={image}
-                  />
-                  <AvatarFallback>OM</AvatarFallback>
-                </Avatar>
-
-                <div className="flex flex-col">
-                  <CardTitle className="text-lg">{name}</CardTitle>
-                  <CardDescription>{userName}</CardDescription>
-                </div>
-              </CardHeader>
-
-              <CardContent>{comment}</CardContent>
-            </Card>
-          )
-        )}
+      <div className="mx-auto max-w-2xl text-center md:max-w-3xl">
+        <h2 className="text-balance text-3xl font-semibold sm:text-4xl">
+          Отзывы
+        </h2>
+        <p className="mt-4 text-base text-muted-foreground md:text-lg">
+          Реальные истории женщин, которые выбрали жить в своём ритме.
+        </p>
       </div>
-    </section>
+      {isMobile ? (
+        <div className="relative min-h-[220px] overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.article
+              key={active}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className="rounded-3xl border border-border/60 bg-card/70 p-6 shadow-lg"
+            >
+              <div className="flex items-center gap-2 text-primary">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star key={index} className="h-4 w-4 fill-current" aria-hidden="true" />
+                ))}
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                “{testimonials[active].quote}”
+              </p>
+              <p className="mt-6 text-sm font-semibold text-foreground">
+                {testimonials[active].name}
+              </p>
+              <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                {testimonials[active].role}
+              </p>
+            </motion.article>
+          </AnimatePresence>
+        </div>
+      ) : (
+        <div className="columns-1 gap-6 md:columns-2 lg:columns-3">
+          {testimonials.map((testimonial) => (
+            <article
+              key={testimonial.name}
+              className="mb-6 break-inside-avoid rounded-3xl border border-border/60 bg-card/70 p-6 shadow-lg"
+            >
+              <div className="flex items-center gap-2 text-primary">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Star key={index} className="h-4 w-4 fill-current" aria-hidden="true" />
+                ))}
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                “{testimonial.quote}”
+              </p>
+              <p className="mt-6 text-sm font-semibold text-foreground">
+                {testimonial.name}
+              </p>
+              <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+                {testimonial.role}
+              </p>
+            </article>
+          ))}
+        </div>
+      )}
+    </motion.section>
   );
-};
+}
