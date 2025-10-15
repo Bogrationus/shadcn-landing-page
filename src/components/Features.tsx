@@ -1,96 +1,49 @@
-import { Badge } from "./ui/badge";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import image from "../assets/growth.png";
-import image3 from "../assets/reflecting.png";
-import image4 from "../assets/looking-ahead.png";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-interface FeatureProps {
-  title: string;
-  description: string;
-  image: string;
-}
-
-const features: FeatureProps[] = [
+const features = [
   {
-    title: "Responsive Design",
+    title: "Ready-to-use sections",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: image4,
+      "Mix and match modular building blocks without starting from scratch.",
   },
   {
-    title: "Intuitive user interface",
+    title: "Accessible by default",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: image3,
+      "Every component follows shadcn/ui guidelines so your experience works for everyone.",
   },
   {
-    title: "AI-Powered insights",
+    title: "Easy theming",
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.",
-    image: image,
+      "Adjust typography, spacing, and color tokens to reflect your brand instantly.",
   },
-];
-
-const featureList: string[] = [
-  "Dark/Light theme",
-  "Reviews",
-  "Features",
-  "Pricing",
-  "Contact form",
-  "Our team",
-  "Responsive design",
-  "Newsletter",
-  "Minimalist",
 ];
 
 export const Features = () => {
   return (
     <section
       id="features"
-      className="container py-24 sm:py-32 space-y-8"
+      className="container space-y-10 py-24 sm:py-32"
     >
-      <h2 className="text-3xl lg:text-4xl font-bold md:text-center">
-        Many{" "}
-        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          Great Features
-        </span>
-      </h2>
-
-      <div className="flex flex-wrap md:justify-center gap-4">
-        {featureList.map((feature: string) => (
-          <div key={feature}>
-            <Badge
-              variant="secondary"
-              className="text-sm"
-            >
-              {feature}
-            </Badge>
-          </div>
-        ))}
+      <div className="space-y-4 text-center">
+        <h2 className="text-3xl font-bold md:text-4xl">Powerful features</h2>
+        <p className="mx-auto max-w-2xl text-muted-foreground">
+          Build a modern landing page with opinionated defaults that keep your
+          focus on shipping value instead of wiring UI details.
+        </p>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {features.map(({ title, description, image }: FeatureProps) => (
-          <Card key={title}>
+      <div className="grid gap-6 md:grid-cols-3">
+        {features.map((feature) => (
+          <Card
+            key={feature.title}
+            className="h-full"
+          >
             <CardHeader>
-              <CardTitle>{title}</CardTitle>
+              <CardTitle>{feature.title}</CardTitle>
             </CardHeader>
-
-            <CardContent>{description}</CardContent>
-
-            <CardFooter>
-              <img
-                src={image}
-                alt="About feature"
-                className="w-[200px] lg:w-[300px] mx-auto"
-              />
-            </CardFooter>
+            <CardContent className="text-muted-foreground">
+              {feature.description}
+            </CardContent>
           </Card>
         ))}
       </div>
