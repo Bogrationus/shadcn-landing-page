@@ -1,146 +1,118 @@
-import { useState } from "react";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { buttonVariants } from "./ui/button";
-import { Menu } from "lucide-react";
+import { Suspense, lazy, useState } from "react";
 import { ModeToggle } from "./mode-toggle";
-import { LogoIcon } from "./Icons";
+import { useI18n } from "@/i18n";
+import { CTA_URL, trackBeginCheckout } from "@/lib/analytics";
 
-interface RouteProps {
+const Button = lazy(() =>
+  import("./ui/button").then((module) => ({ default: module.Button })),
+);
+
+const MenuIcon = lazy(() =>
+  import("lucide-react").then((module) => ({ default: module.Menu })),
+);
+
+const XIcon = lazy(() =>
+  import("lucide-react").then((module) => ({ default: module.X })),
+);
+
+const FireplaceIcon = lazy(() =>
+  import("lucide-react").then((module) => ({ default: module.Fireplace })),
+);
+
+interface NavItem {
   href: string;
   label: string;
 }
 
-const routeList: RouteProps[] = [
-  {
-    href: "#features",
-    label: "Features",
-  },
-  {
-    href: "#testimonials",
-    label: "Testimonials",
-  },
-  {
-    href: "#pricing",
-    label: "Pricing",
-  },
-  {
-    href: "#faq",
-    label: "FAQ",
-  },
+const navItems: NavItem[] = [
+  { href: "#nabidka", label: "nav.menu.offer" },
+  { href: "#pokoje", label: "nav.menu.rooms" },
+  { href: "#faq", label: "nav.menu.faq" },
 ];
 
 export const Navbar = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { t } = useI18n();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleCTAClick = () => {
+    trackBeginCheckout({ source: "navbar" });
+    setIsOpen(false);
+  };
+
   return (
-    <header className="sticky border-b-[1px] top-0 z-40 w-full bg-white dark:border-b-slate-700 dark:bg-background">
-      <NavigationMenu className="mx-auto">
-        <NavigationMenuList className="container h-14 px-4 w-screen flex justify-between ">
-          <NavigationMenuItem className="font-bold flex">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-background/90">
+      <div className="container mx-auto flex h-16 items-center justify-between gap-4 px-4">
+        <a className="flex items-center gap-2 font-semibold" href="#nabidka">
+          <Suspense fallback={<span className="sr-only">🔥</span>}>
+            <FireplaceIcon className="h-6 w-6" aria-hidden />
+          </Suspense>
+          <span className="text-lg md:text-xl">{t("nav.brand")}</span>
+        </a>
+
+        <nav className="hidden items-center gap-6 md:flex">
+          {navItems.map((item) => (
             <a
-              rel="noreferrer noopener"
-              href="/"
-              className="ml-2 font-bold text-xl flex"
+              key={item.href}
+              href={item.href}
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
-              <LogoIcon />
-              ShadcnUI/React
+              {t(item.label)}
             </a>
-          </NavigationMenuItem>
+          ))}
+        </nav>
 
-          {/* mobile */}
-          <span className="flex md:hidden">
-            <ModeToggle />
+        <div className="hidden items-center gap-3 md:flex">
+          <Suspense fallback={<button className="h-9 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground" disabled>{t("nav.cta")}</button>}>
+            <Button asChild className="h-9 px-4 py-2" onClick={handleCTAClick}>
+              <a href={CTA_URL}>{t("nav.cta")}</a>
+            </Button>
+          </Suspense>
+          <ModeToggle />
+        </div>
 
-            <Sheet
-              open={isOpen}
-              onOpenChange={setIsOpen}
-            >
-              <SheetTrigger className="px-2">
-                <Menu
-                  className="flex md:hidden h-5 w-5"
-                  onClick={() => setIsOpen(true)}
-                >
-                  <span className="sr-only">Menu Icon</span>
-                </Menu>
-              </SheetTrigger>
-
-              <SheetContent side={"left"}>
-                <SheetHeader>
-                  <SheetTitle className="font-bold text-xl">
-                    Shadcn/React
-                  </SheetTitle>
-                </SheetHeader>
-                <nav className="flex flex-col justify-center items-center gap-2 mt-4">
-                  {routeList.map(({ href, label }: RouteProps) => (
-                    <a
-                      rel="noreferrer noopener"
-                      key={label}
-                      href={href}
-                      onClick={() => setIsOpen(false)}
-                      className={buttonVariants({ variant: "ghost" })}
-                    >
-                      {label}
-                    </a>
-                  ))}
-                  <a
-                    rel="noreferrer noopener"
-                    href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-                    target="_blank"
-                    className={`w-[110px] border ${buttonVariants({
-                      variant: "secondary",
-                    })}`}
-                  >
-                    <GitHubLogoIcon className="mr-2 w-5 h-5" />
-                    Github
-                  </a>
-                </nav>
-              </SheetContent>
-            </Sheet>
+        <div className="flex items-center gap-2 md:hidden">
+          <span className="text-xs font-medium uppercase text-muted-foreground">
+            {t("nav.mobileHint")}
           </span>
+          <button
+            type="button"
+            onClick={() => setIsOpen((prev) => !prev)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-900 shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100"
+            aria-label="Toggle menu"
+            aria-expanded={isOpen}
+          >
+            <Suspense fallback={<span className="sr-only">Menu</span>}>
+              {isOpen ? (
+                <XIcon className="h-5 w-5" aria-hidden />
+              ) : (
+                <MenuIcon className="h-5 w-5" aria-hidden />
+              )}
+            </Suspense>
+          </button>
+        </div>
+      </div>
 
-          {/* desktop */}
-          <nav className="hidden md:flex gap-2">
-            {routeList.map((route: RouteProps, i) => (
+      {isOpen ? (
+        <div className="border-t border-slate-200 bg-white px-4 py-4 dark:border-slate-800 dark:bg-background md:hidden">
+          <nav className="flex flex-col gap-3">
+            {navItems.map((item) => (
               <a
-                rel="noreferrer noopener"
-                href={route.href}
-                key={i}
-                className={`text-[17px] ${buttonVariants({
-                  variant: "ghost",
-                })}`}
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className="rounded-md px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-900"
               >
-                {route.label}
+                {t(item.label)}
               </a>
             ))}
+            <Suspense fallback={<button className="h-11 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground" disabled>{t("nav.cta")}</button>}>
+              <Button asChild size="lg" onClick={handleCTAClick}>
+                <a href={CTA_URL}>{t("nav.cta")}</a>
+              </Button>
+            </Suspense>
           </nav>
-
-          <div className="hidden md:flex gap-2">
-            <a
-              rel="noreferrer noopener"
-              href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-              target="_blank"
-              className={`border ${buttonVariants({ variant: "secondary" })}`}
-            >
-              <GitHubLogoIcon className="mr-2 w-5 h-5" />
-              Github
-            </a>
-
-            <ModeToggle />
-          </div>
-        </NavigationMenuList>
-      </NavigationMenu>
+        </div>
+      ) : null}
     </header>
   );
 };

@@ -1,91 +1,51 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import React, { Suspense, lazy } from "react";
+import { useI18n } from "@/i18n";
 
-interface FAQProps {
+const Accordion = lazy(() =>
+  import("./ui/accordion").then((module) => ({ default: module.Accordion })),
+);
+const AccordionItem = lazy(() =>
+  import("./ui/accordion").then((module) => ({ default: module.AccordionItem })),
+);
+const AccordionTrigger = lazy(() =>
+  import("./ui/accordion").then((module) => ({ default: module.AccordionTrigger })),
+);
+const AccordionContent = lazy(() =>
+  import("./ui/accordion").then((module) => ({ default: module.AccordionContent })),
+);
+
+type FAQItem = {
   question: string;
   answer: string;
-  value: string;
-}
-
-const FAQList: FAQProps[] = [
-  {
-    question: "Is this template free?",
-    answer: "Yes. It is a free ChadcnUI template.",
-    value: "item-1",
-  },
-  {
-    question: "Lorem ipsum dolor sit amet consectetur adipisicing elit?",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint labore quidem quam? Consectetur sapiente iste rerum reiciendis animi nihil nostrum sit quo, modi quod.",
-    value: "item-2",
-  },
-  {
-    question:
-      "Lorem ipsum dolor sit amet  Consectetur natus dolores minus quibusdam?",
-    answer:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore qui nostrum reiciendis veritatis necessitatibus maxime quis ipsa vitae cumque quo?",
-    value: "item-3",
-  },
-  {
-    question: "Lorem ipsum dolor sit amet, consectetur adipisicing elit?",
-    answer: "Lorem ipsum dolor sit amet consectetur, adipisicing elit.",
-    value: "item-4",
-  },
-  {
-    question:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur natus?",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint labore quidem quam? Consectetur sapiente iste rerum reiciendis animi nihil nostrum sit quo, modi quod.",
-    value: "item-5",
-  },
-];
+};
 
 export const FAQ = () => {
+  const { t, translations } = useI18n();
+  const list = ((translations.faq as Record<string, unknown>)?.items ?? []) as FAQItem[];
+
   return (
-    <section
-      id="faq"
-      className="container py-24 sm:py-32"
-    >
-      <h2 className="text-3xl md:text-4xl font-bold mb-4">
-        Frequently Asked{" "}
-        <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          Questions
-        </span>
-      </h2>
-
-      <Accordion
-        type="single"
-        collapsible
-        className="w-full AccordionRoot"
-      >
-        {FAQList.map(({ question, answer, value }: FAQProps) => (
-          <AccordionItem
-            key={value}
-            value={value}
-          >
-            <AccordionTrigger className="text-left">
-              {question}
-            </AccordionTrigger>
-
-            <AccordionContent>{answer}</AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-
-      <h3 className="font-medium mt-4">
-        Still have questions?{" "}
-        <a
-          rel="noreferrer noopener"
-          href="#"
-          className="text-primary transition-all border-primary hover:border-b-2"
+    <section id="faq" className="container py-24 sm:py-32">
+      <div className="mx-auto max-w-4xl space-y-6 text-center">
+        <h2 className="text-3xl font-bold md:text-4xl">{t("faq.title")}</h2>
+      </div>
+      <div className="mx-auto mt-8 max-w-3xl">
+        <Suspense fallback={<div className="h-40 animate-pulse rounded-2xl bg-muted" />}
         >
-          Contact us
-        </a>
-      </h3>
+          <Accordion type="single" collapsible className="space-y-4">
+            {list.map((item, index) => (
+              <AccordionItem key={item.question} value={`item-${index}`}>
+                <AccordionTrigger className="text-left text-base font-semibold">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-left text-base text-muted-foreground">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Suspense>
+      </div>
     </section>
   );
 };
+

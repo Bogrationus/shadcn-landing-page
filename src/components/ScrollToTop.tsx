@@ -1,6 +1,12 @@
-import { useState, useEffect } from "react";
-import { Button } from "./ui/button";
-import { ArrowUpToLine } from "lucide-react";
+import { Suspense, lazy, useEffect, useState } from "react";
+
+const Button = lazy(() =>
+  import("./ui/button").then((module) => ({ default: module.Button })),
+);
+
+const ArrowUpToLine = lazy(() =>
+  import("lucide-react").then((module) => ({ default: module.ArrowUpToLine })),
+);
 
 export const ScrollToTop = () => {
   const [showTopBtn, setShowTopBtn] = useState(false);
@@ -25,13 +31,17 @@ export const ScrollToTop = () => {
   return (
     <>
       {showTopBtn && (
-        <Button
-          onClick={goToTop}
-          className="fixed bottom-4 right-4 opacity-90 shadow-md"
-          size="icon"
-        >
-          <ArrowUpToLine className="h-4 w-4" />
-        </Button>
+        <Suspense fallback={null}>
+          <Button
+            onClick={goToTop}
+            className="fixed bottom-4 right-4 opacity-90 shadow-md"
+            size="icon"
+          >
+            <Suspense fallback={null}>
+              <ArrowUpToLine className="h-4 w-4" aria-hidden />
+            </Suspense>
+          </Button>
+        </Suspense>
       )}
     </>
   );

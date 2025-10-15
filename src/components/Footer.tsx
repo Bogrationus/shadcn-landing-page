@@ -1,168 +1,72 @@
-import { LogoIcon } from "./Icons";
+import React from "react";
+import { AVAILABLE_LANGUAGES, useI18n } from "@/i18n";
+
+const footerLinks = [
+  {
+    href: "https://penzion-kersko.com/",
+    key: "footer.links.main",
+  },
+  {
+    href: "https://penzion-kersko.com/kontakt/",
+    key: "footer.links.contact",
+  },
+  {
+    href: "https://penzion-kersko.com/gdpr/",
+    key: "footer.links.gdpr",
+  },
+  {
+    href: "https://penzion-kersko.com/cookies/",
+    key: "footer.links.cookies",
+  },
+];
 
 export const Footer = () => {
+  const { language, setLanguage, t } = useI18n();
+  const year = new Date().getFullYear();
+
   return (
-    <footer id="footer">
-      <hr className="w-11/12 mx-auto" />
+    <footer className="border-t border-slate-200 bg-white py-12 dark:border-slate-800 dark:bg-background">
+      <div className="container mx-auto flex flex-col gap-8 px-4 md:flex-row md:items-center md:justify-between">
+        <div className="space-y-3 text-center md:text-left">
+          <span className="text-lg font-semibold">Penzion Kersko</span>
+          <p className="text-sm text-muted-foreground">
+            {t("footer.rights", { year })}
+          </p>
+        </div>
 
-      <section className="container py-20 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-x-12 gap-y-8">
-        <div className="col-span-full xl:col-span-2">
-          <a
-            rel="noreferrer noopener"
-            href="/"
-            className="font-bold text-xl flex"
+        <nav className="flex flex-wrap items-center justify-center gap-4 text-sm font-medium text-muted-foreground md:justify-end">
+          {footerLinks.map((item) => (
+            <a
+              key={item.key}
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+              className="transition hover:text-foreground"
+            >
+              {t(item.key)}
+            </a>
+          ))}
+        </nav>
+
+        <div className="flex flex-col items-center gap-2 text-sm md:items-end">
+          <label htmlFor="language-select" className="text-muted-foreground">
+            {t("footer.language")}
+          </label>
+          <select
+            id="language-select"
+            value={language}
+            onChange={(event) => setLanguage(event.target.value as typeof language)}
+            className="w-40 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40 dark:border-slate-800 dark:bg-slate-950"
           >
-            <LogoIcon />
-            ShadcnUI/React
-          </a>
+            {AVAILABLE_LANGUAGES.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
-
-        <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-lg">Follow US</h3>
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Github
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Twitter
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Dribbble
-            </a>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-lg">Platforms</h3>
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Web
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Mobile
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Desktop
-            </a>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-lg">About</h3>
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Features
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Pricing
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              FAQ
-            </a>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-lg">Community</h3>
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Youtube
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Discord
-            </a>
-          </div>
-
-          <div>
-            <a
-              rel="noreferrer noopener"
-              href="#"
-              className="opacity-60 hover:opacity-100"
-            >
-              Twitch
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section className="container pb-14 text-center">
-        <h3>
-          &copy; 2024 Landing page made by{" "}
-          <a
-            rel="noreferrer noopener"
-            target="_blank"
-            href="https://www.linkedin.com/in/leopoldo-miranda/"
-            className="text-primary transition-all border-primary hover:border-b-2"
-          >
-            Leo Miranda
-          </a>
-        </h3>
-      </section>
+      </div>
     </footer>
   );
 };
+
