@@ -1,40 +1,86 @@
-import { Statistics } from "./Statistics";
-import pilot from "../assets/pilot.png";
+import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Calendar, Mail, Star } from "lucide-react";
 
-export const About = () => {
-  return (
-    <section
-      id="about"
-      className="container py-24 sm:py-32"
-    >
-      <div className="bg-muted/50 border rounded-lg py-12">
-        <div className="px-6 flex flex-col-reverse md:flex-row gap-8 md:gap-12">
-          <img
-            src={pilot}
-            alt=""
-            className="w-[300px] object-contain rounded-lg"
-          />
-          <div className="bg-green-0 flex flex-col justify-between">
-            <div className="pb-6">
-              <h2 className="text-3xl md:text-4xl font-bold">
-                <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-                  About{" "}
-                </span>
-                Company
-              </h2>
-              <p className="text-xl text-muted-foreground mt-4">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit.
-              </p>
-            </div>
-
-            <Statistics />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+const fadeIn = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  transition: { duration: 0.6, ease: [0.215, 0.61, 0.355, 1] },
+  viewport: { once: true, amount: 0.3 },
 };
+
+const facts = [
+  {
+    icon: Star,
+    title: "Сертифицированная консультантка",
+    description:
+      "Обучение в школах астропсихологии, телесных практик и ведической философии.",
+  },
+  {
+    icon: Calendar,
+    title: "Глубокие годовые сопровождения",
+    description: "Составляю индивидуальные маршруты роста и поддержки на 12 месяцев.",
+  },
+  {
+    icon: Mail,
+    title: "Деликатная коммуникация",
+    description: "Ответы в течение 24 часов, после консультации — неделя поддержки в чате.",
+  },
+];
+
+const achievements = [
+  "Авторка курса \"Жизнь по звёздам\"",
+  "Спикерка фестиваля практик осознанности 2023",
+  "Член международного союза астрологов",
+];
+
+export function About() {
+  return (
+    <motion.section
+      id="about"
+      className="container scroll-mt-24 space-y-12 py-24"
+      {...fadeIn}
+    >
+      <div className="mx-auto max-w-2xl text-center md:max-w-3xl">
+        <h2 className="text-balance text-3xl font-semibold sm:text-4xl">
+          Обо мне
+        </h2>
+        <p className="mt-4 text-base text-muted-foreground md:text-lg">
+          Я соединяю древние знания Вед с современной психологией и телесными
+          практиками, чтобы помочь вам проживать повседневность с опорой на
+          собственные ценности и ритмы.
+        </p>
+      </div>
+      <Card className="mx-auto max-w-5xl border-border/60 bg-card/80 shadow-xl">
+        <CardHeader>
+          <CardTitle className="text-2xl font-semibold">3 факта обо мне</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-10">
+          <div className="grid gap-8 md:grid-cols-3">
+            {facts.map((fact) => (
+              <div key={fact.title} className="space-y-3">
+                <fact.icon className="h-10 w-10 text-primary" aria-hidden="true" />
+                <h3 className="text-lg font-semibold">{fact.title}</h3>
+                <p className="text-sm text-muted-foreground">{fact.description}</p>
+              </div>
+            ))}
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold">Достижения</h3>
+            <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+              {achievements.map((item) => (
+                <li key={item} className="flex items-start gap-2">
+                  <span
+                    aria-hidden="true"
+                    className="mt-[0.35rem] h-1.5 w-1.5 rounded-full bg-primary"
+                  />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </CardContent>
+      </Card>
+    </motion.section>
+  );
+}
