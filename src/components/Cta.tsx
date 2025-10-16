@@ -9,21 +9,35 @@ export const Cta = () => {
       <div className="container flex flex-col items-center gap-6 text-center lg:flex-row lg:justify-between lg:text-left">
         <div className="space-y-4">
           <h2 className="text-3xl font-bold md:text-4xl">
-            Launch your next idea in minutes
+            Готов к следующему побегу?
           </h2>
           <p className="text-lg text-muted-foreground md:max-w-xl">
-            Plug these sections into any React project and publish a polished
-            landing page without the busywork.
+            Оставь заявку и мы подберём маршрут под твой драйв: серфинг на рассвете,
+            треккинг к водопадам или гастрономический уикенд в европейских столицах.
           </p>
         </div>
 
         <div className="flex w-full flex-col gap-4 lg:w-auto lg:flex-row">
-          <Button className="lg:w-auto">Create project</Button>
           <Button
-            variant="outline"
+            asChild
+            size="lg"
             className="lg:w-auto"
           >
-            Contact sales
+            <a
+              href="https://t.me/prick_trip"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Написать нам в Telegram
+            </a>
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            className="lg:w-auto"
+            asChild
+          >
+            <a href="mailto:hello@prick-trip.ru">Получить программу</a>
           </Button>
         </div>
       </div>
