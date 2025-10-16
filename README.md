@@ -1,59 +1,29 @@
-# Shadcn/UI Landing Page Template
+# prick_trip landing
 
-## <a href="https://ui.shadcn.com/" target="_blank">ShadcnUI</a> + <a href="https://react.dev/" target="_blank">React</a> + <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a> + <a href="https://tailwindcss.com/" target="_blank">Tailwind</a>.
+Одностраничный лендинг для проекта нестандартных путешествий **prick_trip**, собранный на Next.js App Router с использованием Tailwind CSS и компонентов shadcn/ui.
 
-![shadch-landing-page](https://github.com/leoMirandaa/shadcn-landing-page/assets/61714687/3ba7b51f-9589-4541-800a-5ab7cecad1b5)
+## Стек
 
-Build your React landing page effortlessly with the required sections to your project. <a href="https://shadcn-landing-page.vercel.app/" target="_blank">Live Demo</a>
+- [Next.js 14](https://nextjs.org/) (App Router)
+- [React 18](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
 
-## Sections
+## Возможности
 
-- [x] Navbar
-- [x] Sidebar(mobile)
-- [x] Hero
-- [x] Sponsors
-- [x] About
-- [x] Stats
-- [x] How It Works
-- [x] Features
-- [x] Services
-- [x] Call-to-Action (CTA)
-- [x] Testimonials
-- [x] Team
-- [x] Pricing
-- [x] Newsletter
-- [x] Frequently Asked Questions(FAQ)
-- [x] Footer
+- Видео-герой с CTA и адаптивной типографикой.
+- Блок «О проекте» с манифестом команды.
+- Карточки ближайших походов, галерея из 8 кадров и отзывы участников.
+- CTA-футер с ссылками на Instagram, Telegram-чат и email.
+- Анимации плавного появления блоков при скролле (IntersectionObserver).
+- Mobile-first верстка с ограничением ширины контента 1280px и тёмной палитрой.
 
-## Features
-
-- [x] Fully Responsive Design
-- [x] User Friendly Navigation
-- [x] Dark Mode
-- [x] Meta tags
-
-## How to install
-
-1. Clone this repository:
-
-```bash
-git clone https://github.com/leoMirandaa/shadcn-landing-page.git
-```
-
-2. Go into project
-
-```bash
-cd shadcn-landing-page
-```
-
-3. Install dependencies
+## Запуск
 
 ```bash
 npm install
-```
-
-4. Run project
-
-```bash
 npm run dev
 ```
+
+Приложение стартует на `http://localhost:3000`.
